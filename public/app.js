@@ -4,9 +4,6 @@
 let cart = [];
 let menuItems = [];
 let comboOffers = [];
-let currentSlideIndex = 0;
-let isStudent = false;
-let deliveryCharge = 0;
 let currentReward = null;
 
 // Rewards for scratch card
@@ -14,47 +11,15 @@ const rewards = [
     'Free Sprite on next order',
     '₹10 off on next order',
     '₹20 off on next order',
-    'Free French Fries',
-    'Free Cold Drink',
-    'Free Momos',
-    '₹30 discount coupon'
+    'Free Omelet',
+    'Free Delivery'
 ];
-
-// Sound effects (using Web Audio API for success sound)
-const successSound = new Audio('data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2teleRYGQqLQ3L5WEwg5iLzXzXYzAx1DjtLStV4XCCuJv9nLejEEH0KJ1d+2ZhYKKoS31te4YBUIK4Cw2d+0XRYKLH+w3+GiXRYJLHip3+SjXRYJLHip3+SjXRYJLHip3+SjXRYJLHip3+SjXRYJLHip3+SjXRYJLHip3+SjXRYJLHip3+SjXRYJLHip3+SjXRYJLHip3+SjXRYJLHip3+SjXRYJLHip3+SjXRYJLHip3+SjXRYJLHip3+SjXRYJLHip3+SjXRYJLHip3+SjXRYJLHip3+SjXRYJLHip3+SjXRYJLHip3+SjXRYJLHip3+SjXRYJLHip3+SjXRYJLHip3+SjXRYJLHip3+SjXRYJLHip3+SjXRYJLHip3+SjXRYJLHip3+SjXRYJLHip3+SjXRYJLHip3+SjXRYJLHip3+SjXRYJLHip3+SjXRYJLHip3+SjXRYJLHip3+SjXRYJLHip3+SjXRYJLHip3+SjXRYJLHip3+SjXRYJLHip3+SjXRYJLHip3+SjXRYJLHip3+SjXRYJLHip3+SjXRYJLHip3+SjXRYJLHip3+SjXRYJLHip3+SjXRYJLHip3+SjXRYJLHip3+SjXRYJLHip3+SjXRYJLHip3+SjXRYJLHip3+SjXRYJLHip3+SjXRYJLHip3+SjXRYJLHip3+SjXRYJLHip3+SjXRYJLHip3+SjXRYJLHip3+SjXRYJLHip3+SjXRYJLHip3+SjXRYJLHip3+SjXRYJLHip3+SjXRYJLHip3+SjXRYJLHip3+SjXRYJLHip3+SjXRYJLHip3+SjXRYJLHip3+SjXRYJLHip3+SjXRYJLHip3+SjXRYJLHip3+S');
 
 // Initialize the application
 document.addEventListener('DOMContentLoaded', () => {
     loadMenu();
     loadCombos();
-    initBannerSlider();
 });
-
-// Banner Slider
-function initBannerSlider() {
-    setInterval(() => {
-        currentSlideIndex = (currentSlideIndex + 1) % 4;
-        updateBanner();
-    }, 4000);
-}
-
-function currentSlide(index) {
-    currentSlideIndex = index;
-    updateBanner();
-}
-
-function updateBanner() {
-    const slides = document.querySelectorAll('.banner-slide');
-    const dots = document.querySelectorAll('.banner-dot');
-    
-    slides.forEach((slide, i) => {
-        slide.classList.toggle('active', i === currentSlideIndex);
-    });
-    
-    dots.forEach((dot, i) => {
-        dot.classList.toggle('active', i === currentSlideIndex);
-    });
-}
 
 // Load Menu Items from API
 async function loadMenu() {
@@ -83,13 +48,11 @@ async function loadCombos() {
 function renderMenu(items) {
     const menuGrid = document.getElementById('menuGrid');
     menuGrid.innerHTML = items.map((item, index) => `
-        <div class="menu-card" style="animation-delay: ${index * 0.1}s">
+        <div class="menu-card" style="animation-delay: ${index * 0.05}s">
             <div class="menu-card-image">
                 <img src="${item.image}" alt="${item.name}" onerror="this.src='https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=300'">
-                <span class="menu-card-badge">${item.category}</span>
             </div>
             <div class="menu-card-content">
-                <div class="menu-card-category">${item.category}</div>
                 <h3 class="menu-card-name">${item.name}</h3>
                 <div class="menu-card-price">₹${item.price}</div>
                 <button class="add-to-cart-btn" onclick="addToCart(${item.id}, '${item.name}', ${item.price}, '${item.image}')">
@@ -122,19 +85,9 @@ function setupCategoryFilters() {
 // Render Combo Offers
 function renderCombos() {
     const comboGrid = document.getElementById('comboGrid');
-    comboImages = [
-        ['https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?w=300', 'https://images.unsplash.com/photo-1461023058943-07fcbe16d735?w=300'],
-        ['https://images.unsplash.com/photo-1603133872878-684f208fb84b?w=300', 'https://images.unsplash.com/photo-1525351484163-7529414344d8?w=300'],
-        ['https://images.unsplash.com/photo-1603133872878-684f208fb84b?w=300', 'https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?w=300']
-    ];
-    
     comboGrid.innerHTML = comboOffers.map((combo, index) => `
         <div class="combo-card">
             <span class="combo-badge">HOT DEAL</span>
-            <div class="combo-image">
-                <img src="${comboImages[index][0]}" alt="Item 1" onerror="this.src='https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=300'">
-                <img src="${comboImages[index][1]}" alt="Item 2" onerror="this.src='https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=300'">
-            </div>
             <div class="combo-info">
                 <h3 class="combo-name">${combo.name}</h3>
                 <p class="combo-description">${combo.description}</p>
@@ -245,17 +198,17 @@ function calculateTotals() {
     const distance = parseFloat(document.getElementById('distance')?.value) || 0;
     
     // Calculate delivery charge based on distance
-    deliveryCharge = calculateDeliveryCharge(distance);
+    const deliveryFee = calculateDeliveryFee(distance);
     
     // Calculate discount
-    isStudent = document.getElementById('studentDiscount')?.checked || false;
+    const isStudent = document.getElementById('studentDiscount')?.checked || false;
     const discount = isStudent ? subtotal * 0.10 : 0;
     
-    const total = subtotal + deliveryCharge - discount;
+    const total = subtotal + deliveryFee - discount;
     
     // Update cart display
     document.getElementById('cartSubtotal').textContent = `₹${subtotal}`;
-    document.getElementById('cartDelivery').textContent = `₹${deliveryCharge}`;
+    document.getElementById('cartDelivery').textContent = `₹${deliveryFee}`;
     document.getElementById('cartDiscount').textContent = `-₹${discount}`;
     document.getElementById('cartTotal').textContent = `₹${total}`;
     
@@ -267,11 +220,11 @@ function calculateTotals() {
         discountRow.style.display = 'none';
     }
     
-    return { subtotal, deliveryCharge, discount, total };
+    return { subtotal, deliveryFee, discount, total };
 }
 
-// Calculate Delivery Charge
-function calculateDeliveryCharge(distance) {
+// Calculate Delivery Fee
+function calculateDeliveryFee(distance) {
     if (distance <= 3) return 20;
     if (distance <= 7) return 40;
     if (distance <= 10) return 60;
@@ -292,6 +245,11 @@ function toggleCart() {
     overlay.classList.toggle('active');
 }
 
+// Scroll to Menu
+function scrollToMenu() {
+    document.getElementById('menu').scrollIntoView({ behavior: 'smooth' });
+}
+
 // Show Checkout Modal
 function showCheckout() {
     if (cart.length === 0) {
@@ -301,7 +259,7 @@ function showCheckout() {
     
     toggleCart();
     
-    const { subtotal, deliveryCharge, discount, total } = calculateTotals();
+    const { subtotal, deliveryFee, discount, total } = calculateTotals();
     
     // Update summary items
     const summaryItems = document.getElementById('summaryItems');
@@ -314,7 +272,7 @@ function showCheckout() {
     
     // Update summary totals
     document.getElementById('summarySubtotal').textContent = `₹${subtotal}`;
-    document.getElementById('summaryDelivery').textContent = `₹${deliveryCharge}`;
+    document.getElementById('summaryDelivery').textContent = `₹${deliveryFee}`;
     
     if (discount > 0) {
         document.getElementById('summaryDiscountRow').style.display = 'flex';
@@ -340,25 +298,25 @@ function closeCheckout() {
 // Calculate Delivery on Distance Change
 function calculateDelivery() {
     const distance = parseFloat(document.getElementById('distance').value) || 0;
-    deliveryCharge = calculateDeliveryCharge(distance);
-    document.getElementById('deliveryChargeDisplay').textContent = `₹${deliveryCharge}`;
+    const deliveryFee = calculateDeliveryFee(distance);
+    document.getElementById('deliveryChargeDisplay').textContent = `₹${deliveryFee}`;
     calculateTotals();
     
     // Update summary
-    const { subtotal, deliveryCharge: dc, discount, total } = calculateTotals();
-    document.getElementById('summaryDelivery').textContent = `₹${dc}`;
+    const { subtotal, deliveryFee: df, discount, total } = calculateTotals();
+    document.getElementById('summaryDelivery').textContent = `₹${df}`;
     document.getElementById('summaryTotal').textContent = `₹${total}`;
 }
 
 // Toggle Payment Method
 function togglePayment() {
     const paymentMethod = document.querySelector('input[name="payment"]:checked').value;
-    const qrSection = document.getElementById('qrCodeSection');
+    const upiSection = document.getElementById('upiSection');
     
-    if (paymentMethod === 'phonepe') {
-        qrSection.style.display = 'block';
+    if (paymentMethod === 'upi') {
+        upiSection.style.display = 'block';
     } else {
-        qrSection.style.display = 'none';
+        upiSection.style.display = 'none';
     }
 }
 
@@ -372,7 +330,7 @@ async function placeOrder(event) {
     const distance = parseFloat(document.getElementById('distance').value) || 0;
     const paymentMethod = document.querySelector('input[name="payment"]:checked').value;
     
-    const { subtotal, deliveryCharge, discount, total } = calculateTotals();
+    const { subtotal, deliveryFee, discount, total } = calculateTotals();
     
     const orderData = {
         customer_name: customerName,
@@ -380,7 +338,7 @@ async function placeOrder(event) {
         address: address,
         items: cart,
         subtotal: subtotal,
-        delivery_charge: deliveryCharge,
+        delivery_fee: deliveryFee,
         discount: discount,
         total: total,
         distance: distance,
@@ -389,7 +347,7 @@ async function placeOrder(event) {
     };
     
     try {
-        const response = await fetch('/api/orders', {
+        const response = await fetch('/api/order', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -413,44 +371,46 @@ async function placeOrder(event) {
 function showOrderSuccess() {
     // Play success sound
     playSuccessSound();
-    
     document.getElementById('successModal').classList.add('active');
 }
 
 // Play Success Sound
 function playSuccessSound() {
-    // Create a simple beep sound
-    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-    const oscillator = audioContext.createOscillator();
-    const gainNode = audioContext.createGain();
-    
-    oscillator.connect(gainNode);
-    gainNode.connect(audioContext.destination);
-    
-    oscillator.frequency.value = 800;
-    oscillator.type = 'sine';
-    gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
-    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
-    
-    oscillator.start(audioContext.currentTime);
-    oscillator.stop(audioContext.currentTime + 0.5);
-    
-    // Play second tone
-    setTimeout(() => {
-        const osc2 = audioContext.createOscillator();
-        const gain2 = audioContext.createGain();
+    try {
+        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        const oscillator = audioContext.createOscillator();
+        const gainNode = audioContext.createGain();
         
-        osc2.connect(gain2);
-        gain2.connect(audioContext.destination);
+        oscillator.connect(gainNode);
+        gainNode.connect(audioContext.destination);
         
-        osc2.frequency.value = 1000;
-        osc2.type = 'sine';
-        gain2.gain.setValueAtTime(0.3, audioContext.currentTime);
-        gain2.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
+        oscillator.frequency.value = 800;
+        oscillator.type = 'sine';
+        gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
         
-        osc2.start(audioContext.currentTime);
-        osc2.stop(audioContext.currentTime + 0.5);
-    }, 200);
+        oscillator.start(audioContext.currentTime);
+        oscillator.stop(audioContext.currentTime + 0.5);
+        
+        // Play second tone
+        setTimeout(() => {
+            const osc2 = audioContext.createOscillator();
+            const gain2 = audioContext.createGain();
+            
+            osc2.connect(gain2);
+            gain2.connect(audioContext.destination);
+            
+            osc2.frequency.value = 1000;
+            osc2.type = 'sine';
+            gain2.gain.setValueAtTime(0.3, audioContext.currentTime);
+            gain2.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
+            
+            osc2.start(audioContext.currentTime);
+            osc2.stop(audioContext.currentTime + 0.5);
+        }, 200);
+    } catch (e) {
+        console.log('Audio not supported');
+    }
 }
 
 // Close Success and Show Reward
@@ -464,13 +424,11 @@ function showScratchCard() {
     // Reset scratch card
     const cover = document.getElementById('scratchCover');
     const reward = document.getElementById('scratchReward');
-    const btn = document.getElementById('scratchBtn');
     const closeBtn = document.getElementById('closeScratchBtn');
     
-    cover.classList.remove('scratched');
     cover.style.display = 'flex';
+    cover.classList.remove('scratched');
     reward.style.display = 'none';
-    btn.classList.remove('hidden');
     closeBtn.style.display = 'none';
     
     // Select random reward
@@ -484,14 +442,11 @@ function showScratchCard() {
 function scratchCard() {
     const cover = document.getElementById('scratchCover');
     const reward = document.getElementById('scratchReward');
-    const btn = document.getElementById('scratchBtn');
     const closeBtn = document.getElementById('closeScratchBtn');
     
     cover.style.display = 'none';
     cover.classList.add('scratched');
     reward.style.display = 'flex';
-    
-    btn.classList.add('hidden');
     closeBtn.style.display = 'inline-block';
     
     showToast(`🎉 Congratulations! You unlocked: ${currentReward}`, 'success');
@@ -503,40 +458,6 @@ function closeScratchModal() {
     cart = [];
     updateCartUI();
     currentReward = null;
-}
-
-// Show Admin Panel
-async function showAdminPanel() {
-    try {
-        const response = await fetch('/api/orders');
-        const orders = await response.json();
-        
-        const tbody = document.getElementById('ordersTableBody');
-        tbody.innerHTML = orders.map(order => `
-            <tr>
-                <td>#${order.id}</td>
-                <td>${order.customer_name}</td>
-                <td>${order.phone}</td>
-                <td>${order.address}</td>
-                <td class="order-items-list">${order.items.map(i => `${i.quantity}x ${i.name}`).join(', ')}</td>
-                <td>${order.distance} km</td>
-                <td>₹${order.delivery_charge}</td>
-                <td>₹${order.total}</td>
-                <td>${order.payment_method.toUpperCase()}</td>
-                <td><span class="status-badge">${order.status}</span></td>
-                <td>${order.reward || '-'}</td>
-            </tr>
-        `).join('');
-        
-        document.getElementById('adminModal').classList.add('active');
-    } catch (error) {
-        console.error('Error loading orders:', error);
-    }
-}
-
-// Close Admin Panel
-function closeAdminPanel() {
-    document.getElementById('adminModal').classList.remove('active');
 }
 
 // Show Toast Notification

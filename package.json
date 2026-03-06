@@ -15,9 +15,9 @@
     "cors": "^2.8.5"
   },
   "keywords": ["food", "ordering", "restaurant"],
-  "author": "FOODIGO",
+  "author": "Vinayak Abhin",
   "license": "MIT",
   "engines": {
-    "node": ">=14.0.0"
+    "node": "20.x"
   }
 }

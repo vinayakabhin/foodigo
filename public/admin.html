@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - FOODIGO</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .admin-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 30px;
+        }
+        
+        .admin-header {
+            background: linear-gradient(135deg, #ff4757, #ff6b7a);
+            padding: 20px 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+        }
+        
+        .admin-header h1 {
+            font-size: 28px;
+            font-weight: 800;
+        }
+        
+        .logout-btn {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        
+        .login-container {
+            max-width: 400px;
+            margin: 100px auto;
+            padding: 40px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        
+        .login-container h2 {
+            margin-bottom: 30px;
+            color: #ff4757;
+        }
+        
+        .login-container input {
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 15px;
+            border: 2px solid #f1f2f6;
+            border-radius: 10px;
+            font-size: 14px;
+        }
+        
+        .login-container input:focus {
+            outline: none;
+            border-color: #ff4757;
+        }
+        
+        .login-btn {
+            width: 100%;
+            background: #ff4757;
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+        
+        .error-msg {
+            color: #ff4757;
+            margin-bottom: 15px;
+            display: none;
+        }
+        
+        .orders-table {
+            width: 100%;
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+        
+        .orders-table th,
+        .orders-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #f1f2f6;
+        }
+        
+        .orders-table th {
+            background: #ff4757;
+            color: white;
+            font-weight: 600;
+        }
+        
+        .orders-table tr:hover {
+            background: #fff5f6;
+        }
+        
+        .status-select {
+            padding: 8px 12px;
+            border: 2px solid #f1f2f6;
+            border-radius: 8px;
+            background: white;
+            cursor: pointer;
+        }
+        
+        .status-select:focus {
+            outline: none;
+            border-color: #ff4757;
+        }
+        
+        .status-badge {
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .status-received {
+            background: #e84148;
+            color: white;
+        }
+        
+        .status-preparing {
+            background: #ffa502;
+            color: white;
+        }
+        
+        .status-delivery {
+            background: #00a8ff;
+            color: white;
+        }
+        
+        .status-delivered {
+            background: #2ed573;
+            color: white;
+        }
+        
+        .new-order-notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #2ed573;
+            color: white;
+            padding: 20px 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            display: none;
+            animation: slideIn 0.3s ease;
+            z-index: 1000;
+        }
+        
+        .new-order-notification.show {
+            display: block;
+        }
+        
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        
+        .no-orders {
+            text-align: center;
+            padding: 50px;
+            color: #747d8c;
+        }
+        
+        .order-items-list {
+            font-size: 13px;
+            color: #747d8c;
+        }
+        
+        .refresh-btn {
+            background: #ff4757;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+    <!-- Login Form -->
+    <div class="login-container" id="loginForm">
+        <h2><i class="fas fa-user-shield"></i> Admin Login</h2>
+        <p class="error-msg" id="errorMsg">Invalid username or password</p>
+        <form onsubmit="handleLogin(event)">
+            <input type="text" id="username" placeholder="Username" required>
+            <input type="password" id="password" placeholder="Password" required>
+            <button type="submit" class="login-btn">Login</button>
+        </form>
+    </div>
+
+    <!-- Admin Dashboard -->
+    <div class="admin-container hidden" id="adminDashboard">
+        <div class="admin-header">
+            <div>
+                <h1><i class="fas fa-user-shield"></i> Admin Dashboard</h1>
+                <p>Vinayak Abhin's FOODIGO - Orders Management</p>
+            </div>
+            <div style="display: flex; gap: 10px;">
+                <button class="refresh-btn" onclick="loadOrders()">
+                    <i class="fas fa-refresh"></i> Refresh
+                </button>
+                <button class="logout-btn" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+            </div>
+        </div>
+        
+        <div class="orders-table-container">
+            <table class="orders-table" id="ordersTable">
+                <thead>
+                    <tr>
+                        <th>Order ID</th>
+                        <th>Customer</th>
+                        <th>Phone</th>
+                        <th>Address</th>
+                        <th>Items</th>
+                        <th>Total</th>
+                        <th>Distance</th>
+                        <th>Delivery</th>
+                        <th>Payment</th>
+                        <th>Status <th>Time</th>
+                       </th>
+                    </tr>
+                </thead>
+                <tbody id="ordersTableBody">
+                    <!-- Orders will be loaded here -->
+                </tbody>
+            </table>
+            <div class="no-orders" id="noOrders">
+                <i class="fas fa-inbox" style="font-size: 50px; margin-bottom: 20px;"></i>
+                <p>No orders yet</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- New Order Notification -->
+    <div class="new-order-notification" id="notification">
+        <i class="fas fa-bell"></i> New order received!
+    </div>
+
+    <script>
+        let authToken = null;
+        let lastOrderCount = 0;
+
+        // Check if already logged in
+        if (localStorage.getItem('adminToken')) {
+            authToken = localStorage.getItem('adminToken');
+            showDashboard();
+        }
+
+        function handleLogin(event) {
+            event.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            if (username === 'vinayak' && password === 'foodigo123') {
+                authToken = 'admin-authenticated';
+                localStorage.setItem('adminToken', authToken);
+                showDashboard();
+            } else {
+                document.getElementById('errorMsg').style.display = 'block';
+            }
+        }
+
+        function showDashboard() {
+            document.getElementById('loginForm').classList.add('hidden');
+            document.getElementById('adminDashboard').classList.remove('hidden');
+            loadOrders();
+            
+            // Check for new orders every 10 seconds
+            setInterval(loadOrders, 10000);
+        }
+
+        function logout() {
+            localStorage.removeItem('adminToken');
+            authToken = null;
+            document.getElementById('loginForm').classList.remove('hidden');
+            document.getElementById('adminDashboard').classList.add('hidden');
+        }
+
+        async function loadOrders() {
+            try {
+                const response = await fetch('/api/orders', {
+                    headers: {
+                        'Authorization': authToken
+                    }
+                });
+
+                if (response.status === 403) {
+                    logout();
+                    return;
+                }
+
+                const orders = await response.json();
+                
+                // Check for new orders
+                if (lastOrderCount > 0 && orders.length > lastOrderCount) {
+                    showNotification();
+                    playNotificationSound();
+                }
+                lastOrderCount = orders.length;
+
+                displayOrders(orders);
+            } catch (error) {
+                console.error('Error loading orders:', error);
+            }
+        }
+
+        function displayOrders(orders) {
+            const tbody = document.getElementById('ordersTableBody');
+            const noOrders = document.getElementById('noOrders');
+
+            if (orders.length === 0) {
+                tbody.innerHTML = '';
+                noOrders.style.display = 'block';
+                return;
+            }
+
+            noOrders.style.display = 'none';
+            tbody.innerHTML = orders.map(order => `
+                <tr>
+                    <td>#${order.id}</td>
+                    <td>${order.customer_name}</td>
+                    <td>${order.phone}</td>
+                    <td>${order.address}</td>
+                    <td class="order-items-list">${order.items.map(i => `${i.quantity}x ${i.name}`).join(', ')}</td>
+                    <td><strong>₹${order.total}</strong></td>
+                    <td>${order.distance} km</td>
+                    <td>₹${order.delivery_fee}</td>
+                    <td>${order.payment_method.toUpperCase()}</td>
+                    <td>
+                        <select class="status-select" onchange="updateStatus(${order.id}, this.value)">
+                            <option value="Received" ${order.status === 'Received' ? 'selected' : ''}>Received</option>
+                            <option value="Preparing" ${order.status === 'Preparing' ? 'selected' : ''}>Preparing</option>
+                            <option value="Out for Delivery" ${order.status === 'Out for Delivery' ? 'selected' : ''}>Out for Delivery</option>
+                            <option value="Delivered" ${order.status === 'Delivered' ? 'selected' : ''}>Delivered</option>
+                        </select>
+                    </td>
+                    <td>${new Date(order.created_at).toLocaleString()}</td>
+                </tr>
+            `).join('');
+        }
+
+        async function updateStatus(orderId, status) {
+            try {
+                await fetch('/api/order-status', {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': authToken
+                    },
+                    body: JSON.stringify({ id: orderId, status })
+                });
+            } catch (error) {
+                console.error('Error updating status:', error);
+            }
+        }
+
+        function showNotification() {
+            const notification = document.getElementById('notification');
+            notification.classList.add('show');
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 5000);
+        }
+
+        function playNotificationSound() {
+            try {
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                const oscillator = audioContext.createOscillator();
+                const gainNode = audioContext.createGain();
+                
+                oscillator.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+                
+                oscillator.frequency.value = 1000;
+                oscillator.type = 'sine';
+                gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
+                
+                oscillator.start(audioContext.currentTime);
+                oscillator.stop(audioContext.currentTime + 0.3);
+            } catch (e) {
+                console.log('Audio not supported');
+            }
+        }
+    </script>
+</body>
+</html>
+

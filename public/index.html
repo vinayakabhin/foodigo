@@ -3,28 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FOODIGO - Eat • Chill • Repeat</title>
+    <title>Vinayak Abhin's FOODIGO - Best Fast Food in Yellapur</title>
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
     <!-- Header -->
     <header class="header">
         <div class="header-content">
-            <div class="brand-owner">Vinayak Abhin's</div>
-            <div class="logo">
-                <i class="fas fa-hamburger"></i>
-                <span class="logo-text">FOODIGO</span>
+            <div class="brand">
+                <span class="brand-owner">Vinayak Abhin's</span>
+                <h1 class="logo">FOODIGO 🍔</h1>
             </div>
-            <p class="tagline">Eat • Chill • Repeat</p>
+            <p class="tagline">EAT • CHILL • REPEAT</p>
         </div>
         <div class="header-right">
-            <button class="admin-btn" onclick="showAdminPanel()">
-                <i class="fas fa-user-shield"></i> Admin
-            </button>
+            <span class="location"><i class="fas fa-map-marker-alt"></i> YELLAPUR</span>
             <div class="cart-icon" onclick="toggleCart()">
                 <i class="fas fa-shopping-cart"></i>
                 <span class="cart-count" id="cartCount">0</span>
@@ -32,67 +29,57 @@
         </div>
     </header>
 
-    <!-- Hero Banner -->
-    <section class="hero-banner">
-        <div class="banner-slider">
-            <div class="banner-slide active">
-                <img src="https://images.unsplash.com/photo-1589302168068-964664d93dc0?w=1200" alt="Biryani">
-                <div class="banner-content">
-                    <h1>Delicious Biryani</h1>
-                    <p>Authentic flavors that satisfy your cravings</p>
-                </div>
-            </div>
-            <div class="banner-slide">
-                <img src="https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?w=1200" alt="Fried Rice">
-                <div class="banner-content">
-                    <h1>Special Fried Rice</h1>
-                    <p>Perfectly cooked with premium ingredients</p>
-                </div>
-            </div>
-            <div class="banner-slide">
-                <img src="https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?w=1200" alt="Kebabs">
-                <div class="banner-content">
-                    <h1>Tasty Kebabs</h1>
-                    <p>Grilled to perfection</p>
-                </div>
-            </div>
-            <div class="banner-slide">
-                <img src="https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?w=1200" alt="Momos">
-                <div class="banner-content">
-                    <h1>Hot Momos</h1>
-                    <p>Steamed to perfection</p>
-                </div>
-            </div>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <span class="hero-owner">Vinayak Abhin's</span>
+            <h1 class="hero-logo">FOODIGO</h1>
+            <p class="hero-tagline">EAT • CHILL • REPEAT</p>
+            <p class="hero-subtext">Delicious fast food delivered across Yellapur.</p>
+            <button class="order-btn" onclick="scrollToMenu()">Order Now</button>
         </div>
-        <div class="banner-nav">
-            <span class="banner-dot active" onclick="currentSlide(0)"></span>
-            <span class="banner-dot" onclick="currentSlide(1)"></span>
-            <span class="banner-dot" onclick="currentSlide(2)"></span>
-            <span class="banner-dot" onclick="currentSlide(3)"></span>
+    </section>
+
+    <!-- Instructions -->
+    <section class="instructions">
+        <div class="instruction-card">
+            <div class="instruction-icon"><i class="fas fa-mobile-alt"></i></div>
+            <p>1 Tap food item</p>
+        </div>
+        <div class="instruction-arrow"><i class="fas fa-arrow-right"></i></div>
+        <div class="instruction-card">
+            <div class="instruction-icon"><i class="fas fa-cart-plus"></i></div>
+            <p>2 Add to cart</p>
+        </div>
+        <div class="instruction-arrow"><i class="fas fa-arrow-right"></i></div>
+        <div class="instruction-card">
+            <div class="instruction-icon"><i class="fas fa-check-circle"></i></div>
+            <p>3 Place order</p>
         </div>
     </section>
 
     <!-- Student Discount Banner -->
     <section class="student-banner">
-        <div class="student-content">
-            <i class="fas fa-graduation-cap"></i>
-            <span>Students get 10% discount by showing valid college ID card</span>
-        </div>
+        <i class="fas fa-graduation-cap"></i>
+        <span>Students get 10% discount by showing valid college ID card</span>
     </section>
 
     <!-- Menu Section -->
     <section class="menu-section" id="menu">
         <h2 class="section-title">Our Menu</h2>
+        
+        <!-- Category Tabs -->
         <div class="category-tabs">
             <button class="category-tab active" data-category="all">All</button>
             <button class="category-tab" data-category="Rice & Biryani">Rice & Biryani</button>
             <button class="category-tab" data-category="Egg Specials">Egg Specials</button>
             <button class="category-tab" data-category="Chicken & Kebabs">Chicken & Kebabs</button>
-            <button class="category-tab" data-category="Snacks">Snacks</button>
             <button class="category-tab" data-category="Drinks">Drinks</button>
         </div>
+
         <div class="menu-grid" id="menuGrid">
-            <!-- Menu items will be loaded here -->
+            <!-- Menu items loaded via JavaScript -->
         </div>
     </section>
 
@@ -100,7 +87,7 @@
     <section class="combo-section" id="combos">
         <h2 class="section-title">Combo Offers</h2>
         <div class="combo-grid" id="comboGrid">
-            <!-- Combo offers will be loaded here -->
+            <!-- Combo offers loaded via JavaScript -->
         </div>
     </section>
 
@@ -113,7 +100,11 @@
             </button>
         </div>
         <div class="cart-items" id="cartItems">
-            <!-- Cart items will be loaded here -->
+            <div class="empty-cart">
+                <i class="fas fa-shopping-basket"></i>
+                <p>Your cart is empty</p>
+                <p>Add some delicious food!</p>
+            </div>
         </div>
         <div class="cart-footer">
             <div class="cart-summary">
@@ -122,7 +113,7 @@
                     <span id="cartSubtotal">₹0</span>
                 </div>
                 <div class="summary-row">
-                    <span>Delivery Charge</span>
+                    <span>Delivery Fee</span>
                     <span id="cartDelivery">₹0</span>
                 </div>
                 <div class="summary-row discount-row" id="discountRow" style="display: none;">
@@ -145,6 +136,7 @@
             </button>
         </div>
     </div>
+    <div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
 
     <!-- Checkout Modal -->
     <div class="modal" id="checkoutModal">
@@ -168,7 +160,7 @@
                 </div>
                 <div class="form-group">
                     <label for="distance">Distance (km)</label>
-                    <input type="number" id="distance" required placeholder="Enter distance in km" min="0" step="0.1" onchange="calculateDelivery()">
+                    <input type="number" id="distance" required placeholder="Enter distance in km" min="0" max="10" step="0.1" onchange="calculateDelivery()">
                 </div>
                 <div class="delivery-charge-info" id="deliveryChargeInfo">
                     <span>Delivery Charge: </span>
@@ -185,18 +177,18 @@
                             </span>
                         </label>
                         <label class="payment-option">
-                            <input type="radio" name="payment" value="phonepe" onchange="togglePayment()">
+                            <input type="radio" name="payment" value="upi" onchange="togglePayment()">
                             <span class="payment-card">
                                 <i class="fas fa-mobile-alt"></i>
-                                PhonePe
+                                UPI Payment
                             </span>
                         </label>
                     </div>
                 </div>
-                <div class="qr-code-section" id="qrCodeSection" style="display: none;">
+                <div class="upi-section" id="upiSection" style="display: none;">
                     <div class="qr-code">
-                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=FOODIGO" alt="PhonePe QR Code">
-                        <p>Scan with PhonePe</p>
+                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=FOODIGO" alt="UPI QR Code">
+                        <p>Scan with any UPI App</p>
                     </div>
                 </div>
                 <div class="order-summary">
@@ -236,8 +228,9 @@
                     <i class="fas fa-check"></i>
                 </div>
             </div>
-            <h2>🎉 Thank You for your order!</h2>
-            <p>Our team will call you shortly to confirm your order.</p>
+            <h2>🎉 Thank You!</h2>
+            <p>Thank you for ordering from<br><strong>Vinayak Abhin's FOODIGO</strong></p>
+            <p class="success-subtext">Our team will call you shortly to confirm your order.</p>
             <button class="continue-btn" onclick="closeSuccessAndShowReward()">
                 Continue
             </button>
@@ -250,79 +243,40 @@
             <h2>🎁 You have a surprise reward!</h2>
             <p>Scratch the card to reveal your reward</p>
             <div class="scratch-card" id="scratchCard">
-                <div class="scratch-cover" id="scratchCover">
+                <div class="scratch-cover" id="scratchCover" onclick="scratchCard()">
                     <span>Scratch Here!</span>
                     <i class="fas fa-gift"></i>
                 </div>
                 <div class="scratch-reward" id="scratchReward">
-                    <!-- Reward will be shown here -->
+                    <!-- Reward shown here -->
                 </div>
             </div>
-            <button class="scratch-btn" id="scratchBtn" onclick="scratchCard()">
-                <i class="fas fa-scratch-off"></i> Scratch Now
-            </button>
             <button class="close-scratch" onclick="closeScratchModal()" style="display: none;" id="closeScratchBtn">
                 Awesome! Close
             </button>
         </div>
     </div>
 
-    <!-- Admin Panel -->
-    <div class="modal" id="adminModal">
-        <div class="modal-content admin-content">
-            <button class="modal-close" onclick="closeAdminPanel()">
-                <i class="fas fa-times"></i>
-            </button>
-            <h2><i class="fas fa-user-shield"></i> Admin Panel</h2>
-            <div class="admin-orders">
-                <h3>All Orders</h3>
-                <div class="orders-table-container">
-                    <table class="orders-table" id="ordersTable">
-                        <thead>
-                            <tr>
-                                <th>Order ID</th>
-                                <th>Customer</th>
-                                <th>Phone</th>
-                                <th>Address</th>
-                                <th>Items</th>
-                                <th>Distance</th>
-                                <th>Delivery</th>
-                                <th>Total</th>
-                                <th>Payment</th>
-                                <th>Status</th>
-                                <th>Reward</th>
-                            </tr>
-                        </thead>
-                        <tbody id="ordersTableBody">
-                            <!-- Orders will be loaded here -->
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Cart Overlay -->
-    <div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
-
     <!-- Footer -->
     <footer class="footer">
         <div class="footer-content">
-            <div class="footer-logo">
-                <i class="fas fa-hamburger"></i>
-                <span>FOODIGO</span>
+            <div class="footer-brand">
+                <span class="brand-owner">Vinayak Abhin's</span>
+                <h2 class="logo">FOODIGO</h2>
+                <p class="tagline">EAT • CHILL • REPEAT</p>
             </div>
-            <p>Eat • Chill • Repeat</p>
+            <p class="footer-location"><i class="fas fa-map-marker-alt"></i> Yellapur, Karnataka</p>
+            <p class="footer-text">Serving delicious fast food around Yellapur within 10 km delivery radius.</p>
             <div class="footer-social">
                 <a href="#"><i class="fab fa-facebook"></i></a>
                 <a href="#"><i class="fab fa-instagram"></i></a>
                 <a href="#"><i class="fab fa-twitter"></i></a>
             </div>
-            <p class="copyright">© 2024 FOODIGO. All rights reserved.</p>
+            <p class="copyright">© 2024 Vinayak Abhin's FOODIGO. All rights reserved.</p>
         </div>
     </footer>
 
-    <script src="script.js"></script>
+    <script src="app.js"></script>
 </body>
 </html>
 
