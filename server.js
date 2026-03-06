@@ -243,6 +243,6 @@ app.get('/', (req, res) => {
 });
 
 app.listen(PORT, () => {
-    console.log(`FOODIGO Server running on http://localhost:${PORT}`);
+    console.log(`FOODIGO server running on port ${PORT}`);
 });
 
