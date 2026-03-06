@@ -1,23 +1,18 @@
 {
   "name": "foodigo",
   "version": "1.0.0",
-  "description": "FOODIGO - Fast Food Ordering Website",
+  "description": "Vinayak Abhin's FOODIGO Fast Food Ordering Website",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js",
-    "dev": "node server.js",
-    "postinstall": "node-gyp rebuild || true"
+    "start": "node server.js"
   },
   "dependencies": {
     "express": "^4.18.2",
-    "sqlite3": "^5.1.6",
-    "body-parser": "^1.20.2",
+    "better-sqlite3": "^9.4.0",
     "cors": "^2.8.5"
   },
-  "keywords": ["food", "ordering", "restaurant"],
-  "author": "Vinayak Abhin",
-  "license": "MIT",
   "engines": {
     "node": "20.x"
   }
 }
+
